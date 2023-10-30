@@ -1,0 +1,46 @@
+#PRSS + ASCENSION
+n = 3
+goodpart = []
+badpart = []
+ascension = []
+row = 1
+
+#initial seq
+c = 0
+while c != n+1:
+    goodpart.append(c)
+    c = c+1
+print("seq:",goodpart)
+
+while len(goodpart) > 0:
+    if goodpart[-1] > 0:
+        #find child of the last term
+        index = len(goodpart)
+        while goodpart[index-1] < goodpart[-1]:
+            index = index - 1
+        badroot = index
+        #copy root+ to the bad part
+        while index < len(goodpart) + 1:
+            badpart.append(goodpart[index-1])
+            index = index+1
+        #del last term
+        goodpart.pop()
+        badpart.pop()
+        delta = badroot - goodpart[-1] - 1
+        #copy bad part back to good part + ASCEND
+        c = 0
+        while c < row:
+            #calculate ascension
+            a = 0
+            while a != len(badpart):
+                if badpart[a] > 0:
+                    ascension.append(badpart[a]*(delta^c))
+                a = a+1
+            badpart = ascension
+            goodpart = goodpart+badpart
+            c = c+1
+    else:
+        goodpart.pop()
+    print(row,goodpart)
+    row = row+1
+print("SPrSS/LPrSS terminated in",row-1,"steps")
